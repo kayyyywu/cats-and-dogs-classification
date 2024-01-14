@@ -10,4 +10,4 @@ torchvision==0.16.2
 tqdm==4.66.1
 opencv-python-headless<=4.6.0.66
 ultralytics
-libgl1
+libgl1-mesa-dev
