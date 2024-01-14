@@ -8,7 +8,7 @@ from download_dataset import get_pet_classes
 from my_utils import device, clip_preprocess, target_class_ids, make_square
 import numpy as np
 import cv2
-
+from streamlit_extras.buy_me_a_coffee import button
 
 # set device to "cuda" to call the GPU
 device = "cuda" if torch.cuda.is_available() else 'cpu'
@@ -19,6 +19,7 @@ st.set_page_config(
     layout="wide",
     initial_sidebar_state="expanded",
 )
+button(username="cats_and_dogs", floating=True, width=221)
 st.title("What Breed is This Dog or Cat?")
 st.sidebar.subheader("Input")
 models_list = ["Linear Probe", "Zero-shot"]
@@ -28,7 +29,7 @@ selected_model = st.sidebar.selectbox("Select the Model", models_list)
 uploaded_file = st.sidebar.file_uploader(
     "Choose an image to classify", type=["jpg", "jpeg", "png"]
 )
-st.sidebar.info('For optimal performance, use the Linear Probe model for most cases, but choose the Zero-Shot model for rectangular images with one dimension at least twice as long for better adaptability.', icon="ℹ️")
+st.sidebar.info('For optimal performance, use the Linear Probe model for most cases, but select the Zero-Shot model for long and narrow images to improve adaptability.', icon="ℹ️")
 
 if uploaded_file:
     bytes_data = uploaded_file.read()
@@ -37,9 +38,10 @@ if uploaded_file:
 
     img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
     result = get_preds(img)
+    # print(result)
 
     result_copy = result.copy()
-    if len(result_copy) > 0:
+    if len(result_copy) > 0 and np.any(np.isin(result_copy[:,-1], target_class_ids)):
         img_draw = img.copy().astype(np.uint8)
         bbox_data = result_copy[np.isin(result_copy[:,-1], target_class_ids)][0]
         xmin, ymin, xmax, ymax, _, label = bbox_data
@@ -69,18 +71,24 @@ if uploaded_file:
     else:
         values, indices = linear_probe(image_input, k=5)
 
-    pet_classes = get_pet_classes()
-    st.header('After Crop Adjustment', divider='rainbow')
-    st.image(cropped_image, 
-        caption=[f"{pet_classes[indices[0]]} {values[0]*100:.2f}%"],
-    )
-    st.subheader(f"Top Predictions from {selected_model}")
+    if not np.any(np.isin(result_copy[:,-1], target_class_ids)) or max(values) < 0.4:
+        st.image(bytes_data, 
+            caption=[f"Original Image"],
+        )
+        st.error('Apologies, it seems that the uploaded image does not contain a dog or cat.', icon="🚨")
+    else:
+        pet_classes = get_pet_classes()
+        st.header('After Crop Adjustment', divider='rainbow')
+        st.image(cropped_image, 
+            caption=[f"{pet_classes[indices[0]]} {values[0]*100:.2f}%"],
+        )
+        st.subheader(f"Top Predictions from {selected_model}")
 
-    # Create a list of dictionaries for each prediction
-    predictions_list = [
-        {"Classification": pet_classes[index], "Confidence": "{:.2f} %".format(100 * value)}
-        for value, index in zip(values, indices)
-    ]
-    st.dataframe(
-        pd.DataFrame(predictions_list)
-    )
+        # Create a list of dictionaries for each prediction
+        predictions_list = [
+            {"Classification": pet_classes[index], "Confidence": "{:.2f} %".format(100 * value)}
+            for value, index in zip(values, indices)
+        ]
+        st.dataframe(
+            pd.DataFrame(predictions_list)
+        )
