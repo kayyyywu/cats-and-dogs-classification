@@ -93,8 +93,11 @@ def linear_probe(image_input, k=5):
     return values, indices
 
 def get_yolo5(model_type='s'):
-    path = 'yolov5s.pt'
-    return torch.hub.load('ultralytics/yolov5', 'custom', path=path)
+    torch.hub._validate_not_a_forked_repo=lambda a,b,c: True
+    return torch.hub.load('ultralytics/yolov5', 
+                          'yolov5{}'.format(model_type), 
+                          pretrained=True
+                          )
 
 def get_preds(img):
     model = get_yolo5()
