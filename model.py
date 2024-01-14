@@ -1,7 +1,6 @@
 import os
 import numpy as np
 import torch
-from matplotlib import pyplot as plt
 from torch.utils.data import DataLoader
 import clip
 from download_dataset import download_pet_images, update_labels, get_labels, get_pet_classes
