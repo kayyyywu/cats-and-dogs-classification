@@ -8,7 +8,5 @@ streamlit==1.30.0
 torch==2.1.2
 torchvision==0.16.2
 tqdm==4.66.1
-opencv-python-headless<=4.6.0.66
+opencv-python-headless==4.5.3.56
 ultralytics>=8.0.232
-opencv-python>=4.1.1
-requests>=2.23.0
