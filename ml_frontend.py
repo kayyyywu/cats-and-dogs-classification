@@ -10,6 +10,7 @@ import numpy as np
 import cv2
 from streamlit_extras.buy_me_a_coffee import button
 
+
 # set device to "cuda" to call the GPU
 device = "cuda" if torch.cuda.is_available() else 'cpu'
 # set page layout
@@ -29,7 +30,12 @@ selected_model = st.sidebar.selectbox("Select the Model", models_list)
 uploaded_file = st.sidebar.file_uploader(
     "Choose an image to classify", type=["jpg", "jpeg", "png"]
 )
-st.sidebar.info('For optimal performance, use the Linear Probe model for most cases, but select the Zero-Shot model for long and narrow images to improve adaptability.', icon="ℹ️")
+st.subheader('How to choose the right model :sunglasses:')
+st.info('''
+        Zero-shot: Stable performance across different image qualities.
+        
+        Linear probe: Superior for high-quality images with a square-like shape, where the pet occupies a significant portion of the frame.
+        ''')
 
 if uploaded_file:
     bytes_data = uploaded_file.read()
@@ -38,7 +44,6 @@ if uploaded_file:
 
     img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
     result = get_preds(img)
-    # print(result)
 
     result_copy = result.copy()
     if len(result_copy) > 0 and np.any(np.isin(result_copy[:,-1], target_class_ids)):
@@ -71,8 +76,8 @@ if uploaded_file:
     else:
         values, indices = linear_probe(image_input, k=5)
 
-    if not np.any(np.isin(result_copy[:,-1], target_class_ids)) or max(values) < 0.4:
-        st.image(bytes_data, 
+    if not np.any(np.isin(result_copy[:,-1], target_class_ids)) or max(values) < 28.71866:
+        st.image(bytes_data,
             caption=[f"Original Image"],
         )
         st.error('Apologies, it seems that the uploaded image does not contain a dog or cat.', icon="🚨")
