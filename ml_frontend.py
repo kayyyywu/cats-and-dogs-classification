@@ -76,7 +76,7 @@ if uploaded_file:
     else:
         values, indices = linear_probe(image_input, k=5)
 
-    if not np.any(np.isin(result_copy[:,-1], target_class_ids)) or max(values) < 28.71866:
+    if not np.any(np.isin(result_copy[:,-1], target_class_ids)) or max(values) < 0.2871866:
         st.image(bytes_data,
             caption=[f"Original Image"],
         )
