@@ -61,7 +61,7 @@ if uploaded_file:
        
         width = xmax - xmin
         height = ymax - ymin
-        if width / height > 2 or height / width > 2:
+        if width / height > 1.5 or height / width > 1.5:
             cropped_image = make_square(cropped_image, fill_color=(255, 255, 255, 0))
         cropped_image = cropped_image.resize((299, 299))
     else:
