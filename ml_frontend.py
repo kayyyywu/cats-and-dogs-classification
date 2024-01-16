@@ -61,7 +61,9 @@ if uploaded_file:
        
         width = xmax - xmin
         height = ymax - ymin
-        if width / height > 1.5 or height / width > 1.5:
+
+        ratio = 1.5
+        if width / height > ratio or height / width > ratio:
             cropped_image = make_square(cropped_image, fill_color=(255, 255, 255, 0))
         cropped_image = cropped_image.resize((299, 299))
     else:
@@ -76,7 +78,7 @@ if uploaded_file:
     else:
         values, indices = linear_probe(image_input, k=5)
 
-    if not np.any(np.isin(result_copy[:,-1], target_class_ids)) or max(values) < 0.2871866:
+    if not np.any(np.isin(result_copy[:,-1], target_class_ids)) or max(values) < 0.23:
         st.image(bytes_data,
             caption=[f"Original Image"],
         )
