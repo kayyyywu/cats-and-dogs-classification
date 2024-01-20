@@ -56,20 +56,8 @@ if uploaded_file:
                                 (255, 0, 0), 2) 
         st.header('Before Crop Adjustment', divider='rainbow')
         st.image(img_draw, caption=["Uncropped Image"])
-        cropped_image = img[p0[1]:p1[1], p0[0]:p1[0]].copy()
+        cropped_image = img[p0[1]:p1[1], :].copy()
         cropped_image = Image.fromarray(cropped_image)
-       
-        width = xmax - xmin
-        height = ymax - ymin
-
-        ratio = 1.5
-        if width / height > ratio or height / width > ratio:
-            cropped_image = make_square(cropped_image, fill_color=(255, 255, 255, 0))
-        cropped_image = cropped_image.resize((299, 299))
-    else:
-        image = Image.open(BytesIO(bytes_data))
-        image = image.convert("RGB")
-        cropped_image = ImageOps.fit(image, (299, 299), Image.Resampling.LANCZOS)
 
     image_input = clip_preprocess(cropped_image).unsqueeze(0).to(device)
 
@@ -82,7 +70,7 @@ if uploaded_file:
         st.image(bytes_data,
             caption=[f"Original Image"],
         )
-        st.error('Apologies, it seems that the uploaded image does not contain a dog or cat.', icon="🚨")
+        st.error("Apologies, couldn't identify the breed of the uploaded image at this time..", icon="🚨")
     else:
         pet_classes = get_pet_classes()
         st.header('After Crop Adjustment', divider='rainbow')
