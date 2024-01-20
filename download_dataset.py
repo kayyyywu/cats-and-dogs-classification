@@ -3,7 +3,7 @@ import os
 import pandas as pd
 from tqdm import tqdm
 import pickle
-from my_utils import clip_preprocess
+from my_utils import clip_preprocess, PET_CLASSES
 
 
 # Download to folder "CLIP"
@@ -23,13 +23,10 @@ def download_pet_images(directory=r"datasets", img_transform = clip_preprocess):
 
 # Get pet classes
 def get_pet_classes():
-    # Check if the file exists
-    file_path = 'datasets/breed_list.pkl'
-    if not os.path.exists(file_path):
+    if len(PET_CLASSES) == 0:
         breed_list = download_pet_images()[0].classes
     else:
-        with open(file_path, 'rb') as file:
-            breed_list = pickle.load(file)
+        breed_list = PET_CLASSES
     return breed_list
     
 # Read labels
