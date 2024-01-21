@@ -91,7 +91,7 @@ def linear_probe(image_input, k=5):
     
     return values, indices
 
-def get_yolo5(model_type='s'):
+def get_yolo5(model_type='m'):
     torch.hub._validate_not_a_forked_repo=lambda a,b,c: True
     return torch.hub.load('ultralytics/yolov5', 
                           'yolov5{}'.format(model_type), 
