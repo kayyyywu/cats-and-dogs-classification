@@ -58,6 +58,8 @@ if uploaded_file:
         st.image(img_draw, caption=["Uncropped Image"])
         cropped_image = img[p0[1]:p1[1], :].copy()
         cropped_image = Image.fromarray(cropped_image)
+    else:
+        cropped_image = Image.open(BytesIO(bytes_data))
 
     image_input = clip_preprocess(cropped_image).unsqueeze(0).to(device)
 
