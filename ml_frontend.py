@@ -68,11 +68,11 @@ if uploaded_file:
     else:
         values, indices = linear_probe(image_input, k=5)
 
-    if not np.any(np.isin(result_copy[:,-1], target_class_ids)) or max(values) < 0.23:
+    if not np.any(np.isin(result_copy[:,-1], target_class_ids)) or max(values) < 0.15:
         st.image(bytes_data,
             caption=[f"Original Image"],
         )
-        st.error("Apologies, couldn't identify the breed of the uploaded image at this time..", icon="🚨")
+        st.error("Apologies, couldn't identify the breed of the uploaded image at this time...", icon="🚨")
     else:
         pet_classes = get_pet_classes()
         st.header('After Crop Adjustment', divider='rainbow')
