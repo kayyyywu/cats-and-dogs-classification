@@ -11,8 +11,10 @@
 <https://cats-and-dogs-classification.streamlit.app>
 
 ## **How to use the App:**
+### 1. Upload you Image, and choose a model.
 ![step 1 - Upload your image and choose a model](./image_examples/tutorial_1.jpg)
 
+### 2. You are all set, check out the result of top-5 predictions!
 ![step 2 - Check out the result!](./image_examples/tutorial_2.jpg)
 
 ## **Project desciption:**
