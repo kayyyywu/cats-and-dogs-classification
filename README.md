@@ -10,7 +10,7 @@
 
 <https://cats-and-dogs-classification.streamlit.app>
 
-## *How to use the App:**
+## **How to use the App:**
 
 
 ## **Project desciption:**
