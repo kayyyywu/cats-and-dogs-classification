@@ -10,7 +10,7 @@
 
 <https://cats-and-dogs-classification.streamlit.app>
 
-## **Brief Desciption:**
+## **Project desciption:**
 
 Dogs and cats are the most popular pets in the United States. More than just satisfying curiosity, understanding your pet's breed can provide valuable insights into their behavior.
 
