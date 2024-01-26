@@ -11,7 +11,7 @@
 <https://cats-and-dogs-classification.streamlit.app>
 
 ## **How to use the App:**
-
+![step 1 - upload your image and choose a model](./image_examples/tutorial_1.jpg)
 
 ## **Project desciption:**
 
