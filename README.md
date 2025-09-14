@@ -2,7 +2,7 @@
 
 ## **Developers:**
 
-**Kexian Wu**: App development, YOLO object detection, Clip-zero shot, Clip-linear probe, Fine-tuned ResNet.  
+**Kay Wu**: App development, YOLO object detection, Clip-zero shot, Clip-linear probe, Fine-tuned ResNet.  
 
 **Jialong Li**: Model training, Clip-zero shot, Clip-linear probe, Fine-tuned ResNet.  
 
